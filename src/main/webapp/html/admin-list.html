@@ -90,7 +90,7 @@
                                     <a title="编辑"  onclick="xadmin.open('编辑','admin-edit.html')" href="javascript:;">
                                       <i class="layui-icon">&#xe642;</i>
                                     </a>
-                                    <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                                    <a title="删除"  :value=a.id @click="del(a.id)" href="javascript:;">
                                       <i class="layui-icon">&#xe640;</i>
                                     </a>
                                   </td>
@@ -153,7 +153,23 @@
                         .then(res=>{this.abc=res.data})
 
 
-                }
+                },
+            del:function (id) {
+                var params = new URLSearchParams();
+                params.append("id",id);
+                axios
+                    .post("del",params)
+                    .then(res=>{
+                       if((res.data).indexOf('成功')!=-1){
+                           alert(res.data);
+                           location.reload();
+                       }
+
+                    })
+
+            }
+
+
         }
         })
     </script>

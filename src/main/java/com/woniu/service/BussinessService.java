@@ -8,8 +8,9 @@ import java.util.List;
 
 @Service
 public interface BussinessService {
-    @Select("select count(*) from business")
+
     int findcount();
-    @Select("select * from business LIMIT #{ye},3")
+
     List<Bussiness> findbussiness(int ye);
+    void del(int id);
 }

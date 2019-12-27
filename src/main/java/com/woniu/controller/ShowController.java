@@ -1,20 +1,29 @@
 package com.woniu.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woniu.dao.BussinessDao;
 import com.woniu.entity.Bussiness;
 import com.woniu.entity.BussinessDTO;
+import com.woniu.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/test")
 public class ShowController {
     @Autowired
     private BussinessDao bussinessDao;
+    private Map<String,Object> m= new HashMap<>();
+
+    @Autowired
+    private RedisUtil redisUtil;
     @RequestMapping("/show")
     public String show(){
         return "admin-list";
@@ -34,5 +43,19 @@ public class ShowController {
     public Bussiness aa(){
         System.out.println(123);
        return new Bussiness(1,"dsdssd",null,null,null,null,null,null,1);
+    }
+    @ResponseBody
+    @RequestMapping("/del")
+    public String del(int id) throws JsonProcessingException {
+        String result="删除成功";
+        bussinessDao.del(id);
+        result=(new ObjectMapper().writeValueAsString(result));
+        return result;
+    }
+    @ResponseBody
+    @RequestMapping("/s")
+    public String b(){
+       String count =String.valueOf(bussinessDao.findcount());
+        return count;
     }
 }
