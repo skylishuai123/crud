@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+vvv
+<script type="text/javascript">
+</script>
+<script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+<script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
+<script type="text/javascript">
+    var app = new Vue({
+        el:"#app",
+        data:{
+            //[]链表,{}map
+
+            productsId: []
+        },
+        mounted(){
+            //请求服务详情页数据
+            var params = new URLSearchParams();
+            params.append("yema","1");
+            axios
+                .post("/toProductDetail",params)
+                .then(res=>{
+                   alert(res.data)
+                }
+
+            );
+        }})
+</script>
+</body>
+</html>
