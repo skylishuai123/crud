@@ -24,9 +24,14 @@ public class BussinessServiceimp implements BussinessService {
     public List<Bussiness> findbussiness(int ye) {
         return bussinessDao.findbussiness(ye);
     }
-    @CacheEvict(value="del",allEntries=true)
+    @CacheEvict(value={"findcount","findbussiness"},allEntries=true)
     @Override
     public void del(int id) {
         bussinessDao.del(id);
+    }
+
+    @Override
+    public Bussiness bb(int id) {
+        return bussinessDao.bb(id);
     }
 }

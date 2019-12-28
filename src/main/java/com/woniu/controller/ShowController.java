@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,5 +59,18 @@ public class ShowController {
     public String b(){
        String count =String.valueOf(bussinessDao.findcount());
         return count;
+    }
+
+    @RequestMapping("/sss")
+    public String c(int id, HttpSession session){
+       session.setAttribute("ll",bussinessDao.bb(id));
+        return "member-add";
+    }
+    @ResponseBody
+    @RequestMapping("/ss")
+    public Bussiness d (HttpSession session){
+       Bussiness bussiness= (Bussiness) session.getAttribute("ll");
+        System.out.println(bussiness.getId());
+       return bussiness;
     }
 }

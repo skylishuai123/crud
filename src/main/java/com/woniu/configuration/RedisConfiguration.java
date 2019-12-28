@@ -12,11 +12,13 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 
 @EnableCaching
 @Configuration
+@Component
 public class RedisConfiguration extends CachingConfigurerSupport {
      /*
 	 * key的生成策略

@@ -14,4 +14,6 @@ public interface BussinessDao {
     List<Bussiness> findbussiness(int ye);
     @Delete("delete from business where id =#{id}")
     void del(int id);
+    @Select("select * from business where id =#{id}")
+    Bussiness bb(int id);
 }

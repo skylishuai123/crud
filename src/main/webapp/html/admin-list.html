@@ -87,7 +87,7 @@
                                     <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
                                       <i class="layui-icon">&#xe601;</i>
                                     </a>
-                                    <a title="编辑"  onclick="xadmin.open('编辑','admin-edit.html')" href="javascript:;">
+                                    <a title="编辑"   :href="'sss?id='+a.id">
                                       <i class="layui-icon">&#xe642;</i>
                                     </a>
                                     <a title="删除"  :value=a.id @click="del(a.id)" href="javascript:;">

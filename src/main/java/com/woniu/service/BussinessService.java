@@ -13,4 +13,5 @@ public interface BussinessService {
 
     List<Bussiness> findbussiness(int ye);
     void del(int id);
+    Bussiness bb(int id);
 }

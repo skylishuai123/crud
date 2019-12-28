@@ -5,13 +5,14 @@ mybatis:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/jiduan?serverTimezone=GMT
+    url: jdbc:mysql://localhost:3306/ls?serverTimezone=GMT
     username: root
     password: 147258
   redis:
     database: 0
     host: localhost
     port: 6379
+
   mvc:
     view:
       suffix: .html
