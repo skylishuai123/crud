@@ -28,7 +28,7 @@ public class FileController {
     @PutMapping(value = "/ff")
     public String ss(Wenjian wenjian, MultipartFile myfile, HttpServletRequest request) throws IOException {
         String path= request.getServletContext().getRealPath("tupian");
-
+        System.out.println(123);
         String name=myfile.getOriginalFilename();
         File f = new File(path+"/"+name);
 
