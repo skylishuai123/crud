@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="/css/xadmin.css">
         <script src="/lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="/js/xadmin.js"></script>
+        <script src="/js/jquery.min.js"></script>
         <!--[if lt IE 9]>
           <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
           <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -24,8 +25,8 @@
             <a>
               <cite>导航元素</cite></a>
           </span>
-          <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
-            <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
+            <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+                <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
         </div>
         <div class="layui-fluid">
             <div class="layui-row layui-col-space15">
@@ -36,80 +37,127 @@
                                 <div class="layui-inline layui-show-xs-block">
                                     <input class="layui-input"  autocomplete="off" placeholder="开始日" name="start" id="start">
                                 </div>
+
                                 <div class="layui-inline layui-show-xs-block">
                                     <input class="layui-input"  autocomplete="off" placeholder="截止日" name="end" id="end">
                                 </div>
                                 <div class="layui-inline layui-show-xs-block">
-                                    <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                                    <input type="text" name="username" id="r" placeholder="请输入用户名" autocomplete="off" class="layui-input">
                                 </div>
-                                <div class="layui-inline layui-show-xs-block">
-                                    <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
-                                </div>
+                                <input type="button" @click="cha()" value="chazhao">
                             </form>
                         </div>
                         <div class="layui-card-header">
-                            <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+
                             <button class="layui-btn" onclick="xadmin.open('添加用户','./admin-add.html',600,400)"><i class="layui-icon"></i>添加</button>
                         </div>
                         <div class="layui-card-body ">
-                            <table class="layui-table layui-form">
-                              <thead>
+                            <table>
+                                <thead>
                                 <tr>
-                                  <th>
-                                    <input type="checkbox" name=""  lay-skin="primary">
-                                  </th>
-                                  <th>ID</th>
-                                  <th>登录名</th>
-                                  <th>手机</th>
-                                  <th>邮箱</th>
-                                  <th>角色</th>
-                                  <th>加入时间</th>
-                                  <th>状态</th>
-                                  <th>操作</th>
-                              </thead>
-                              <tbody>
-                                <tr v-for="a in abc.bussiness">
-                                  <td>
-                                    <input type="checkbox" name=""  lay-skin="primary">
-                                  </td>
-                                  <td>{{a.id}}</td>
-                                  <td>{{a.name}}</td>
-                                  <td>{{a.role}}</td>
-                                  <td>{{a.premession}}</td>
-                                  <td>{{a.phone}}</td>
-                                  <td>{{a.jointime}}</td>
-                                  <td class="td-status" >
+                                    <th>
+                                        <input type="button" value="批量" @click="pi()">
+                                    </th>
 
-                                      <label v-if="a.state === 0" style="color:red">未审核</label>
-                                      <label v-if="a.state === 1" style="color:red">审核</label>
+                                    <th>ID</th>
+                                    <th>登录名</th>
+                                    <th>手机</th>
+                                    <th>邮箱</th>
+                                    <th>角色</th>
+                                    <th>加入时间</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </thead>
 
-                                  <td class="td-manage">
-                                    <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
-                                      <i class="layui-icon">&#xe601;</i>
-                                    </a>
-                                    <a title="编辑"   :href="'sss?id='+a.id">
-                                      <i class="layui-icon">&#xe642;</i>
-                                    </a>
-                                    <a title="删除"  :value=a.id @click="del(a.id)" href="javascript:;">
-                                      <i class="layui-icon">&#xe640;</i>
-                                    </a>
-                                  </td>
+                                <tbody >
+
+                                <tr v-if="bbc==''" v-for="a in abc.bussiness">
+                                    <td>
+                                        <input type="checkbox" name="l" :value=a.id lay-skin="primary">
+
+                                    </td>
+                                    <td>{{a.id}}</td>
+                                    <td>{{a.name}}</td>
+                                    <td>{{a.role}}</td>
+                                    <td>{{a.premession}}</td>
+                                    <td>{{a.phone}}</td>
+                                    <td>{{a.jointime}}</td>
+                                    <td class="td-status">
+
+                                        <label v-if="a.state === 0" style="color:red">未审核</label>
+                                        <label v-if="a.state === 1" style="color:red">审核</label>
+
+                                    <td class="td-manage">
+                                        <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
+                                            <i class="layui-icon">&#xe601;</i>
+                                        </a>
+                                        <a title="编辑"   :href="'sss?id='+a.id">
+                                            <i class="layui-icon">&#xe642;</i>
+                                        </a>
+                                        <a title="删除"  :value=a.id @click="del(a.id)" href="javascript:;">
+                                            <i class="layui-icon">&#xe640;</i>
+                                        </a>
+                                    </td>
                                 </tr>
-                              </tbody>
+
+                                <tr v-if="bbc!=''" v-for="a in bbc.bussiness">
+                                    <td>
+                                        <input type="checkbox" name="l"  lay-skin="primary">
+                                    </td>
+                                    <td>{{a.id}}</td>
+                                    <td>{{a.name}}</td>
+                                    <td>{{a.role}}</td>
+                                    <td>{{a.premession}}</td>
+                                    <td>{{a.phone}}</td>
+                                    <td>{{a.jointime}}</td>
+                                    <td class="td-status">
+
+                                        <label v-if="a.state === 0" style="color:red">未审核</label>
+                                        <label v-if="a.state === 1" style="color:red">审核</label>
+
+                                    <td class="td-manage">
+                                        <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
+                                            <i class="layui-icon">&#xe601;</i>
+                                        </a>
+                                        <a title="编辑"   :href="'sss?id='+a.id">
+                                            <i class="layui-icon">&#xe642;</i>
+                                        </a>
+                                        <a title="删除"  :value=a.id @click="del(a.id)" href="javascript:;">
+                                            <i class="layui-icon">&#xe640;</i>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                </tbody>
                             </table>
                         </div>
-                        <div class="layui-card-body ">
+                        <div class="layui-card-body "v-if="bbc==''"  >
                             <div class="page" >
                                 <div>
-                                  <a class="prev" href="" @click="first()">&lt;&lt;</a>
+                                    <a class="prev" href="" @click="first()">&lt;&lt;</a>
                                     <a class="prev" href="" @click="pre()">>&lt;</a>
-                                  <a class="num" href="">1</a>
-                                  <span class="current" >2</span>
-                                  <a class="num" href="">...</a>
-                                  <a class="num" href="" id="zong">总页数:{{abc.totpage}}</a>
+                                    <a class="num" href="">1</a>
+                                    <a class="num" >2</a>
+                                    <a class="num" href="">...</a>
+                                    <a class="num" href="" id="zong" >总页数:{{abc.totpage}}</a>
                                     <a class="prev"  @click="nextpage()">></a>
                                     <a class="next"  @click="wei()">&gt;&gt;</a>
                                     <a class="next" id="now" href="">{{abc.nowpage}}</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-card-body "v-if="bbc!=''"  >
+                            <div class="page" >
+                                <div>
+                                    <a class="prev" href="" @click="firstt()">&lt;&lt;</a>
+                                    <a class="prev" href="" @click="pree()">>&lt;</a>
+                                    <a class="num" href="">1</a>
+                                    <a class="num" >2</a>
+                                    <a class="num" href="">...</a>
+                                    <a class="num" href="" id="zongg" >总页数:{{bbc.totpage}}</a>
+                                    <a class="prev"  @click="nextpagee()">></a>
+                                    <a class="next"  @click="weii()">&gt;&gt;</a>
+                                    <a class="next" id="noww" href="">{{bbc.nowpage}}</a>
                                 </div>
                             </div>
                         </div>
@@ -125,7 +173,11 @@
         var app = new Vue({
             el:"#app",
             data:{
-                abc:[]
+                abc:[],
+                bbc:[],
+                ccc:[],
+                ddd:[],
+                ddc:document.getElementById('r').value
             },
             mounted(){
                 //请求服务详情页数据
@@ -167,10 +219,64 @@
 
                     })
 
+            },
+            cha:function () {
+                const params= new URLSearchParams();
+                const vv=document.getElementById('r').value
+                params.append("yema","1");
+                params.append("role",vv);
+
+                axios
+                    .post("xiaocha",params)
+                    .then(res=>{
+                        this.bbc=res.data;
+
+
+                    })
+            },
+            nextpagee:function () {
+                var now =eval(document.getElementById('noww').innerHTML);
+                var zong =eval(document.getElementById('zongg').innerHTML);
+                const vv=document.getElementById('r').value;
+                now+=1;
+                if(now>zong){
+                    now=zong;
+                }
+                var params = new URLSearchParams();
+                params.append("yema",now);
+                params.append("role",vv);
+                axios
+                    .post("xiaocha",params)
+                    .then(res=>{this.bbc=res.data}
+
+                    )
+
+            },
+            pi:function () {
+                const chk_value =[];
+                $('input[name="l"]:checked').each(function(){
+                    chk_value.push($(this).val());
+                    this.ccc=chk_value;
+
+
+                });
+                this.ccc=chk_value;
+                console.log(this.ccc);
+                const params= new URLSearchParams();
+
+                params.append("delid",this.ccc);
+                axios
+                    .post("delall",params)
+                    .then(res=>{this.ddd=res.data;
+                    alert(this.ddd);
+                    location.reload();
+                    })
             }
+            }
+            
 
 
-        }
+
         })
     </script>
 

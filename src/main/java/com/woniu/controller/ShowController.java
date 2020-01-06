@@ -3,10 +3,15 @@ package com.woniu.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woniu.dao.BussinessDao;
+import com.woniu.dao.ZhujieDao;
 import com.woniu.entity.Bussiness;
 import com.woniu.entity.BussinessDTO;
+import com.woniu.entity.TotCount;
+import com.woniu.entity.ZhujieDTO;
+import com.woniu.service.BussinessService;
 import com.woniu.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,7 +26,9 @@ import java.util.Map;
 @RequestMapping("/test")
 public class ShowController {
     @Autowired
-    private BussinessDao bussinessDao;
+    private BussinessService bussinessDao;
+    @Autowired
+    private ZhujieDao zhujieDao;
     private Map<String,Object> m= new HashMap<>();
 
     @Autowired
@@ -57,8 +64,8 @@ public class ShowController {
     @ResponseBody
     @RequestMapping("/s")
     public String b(){
-       String count =String.valueOf(bussinessDao.findcount());
-        return count;
+       String ss = String.valueOf(bussinessDao.findcount());
+        return ss;
     }
 
     @RequestMapping("/sss")
@@ -72,5 +79,33 @@ public class ShowController {
        Bussiness bussiness= (Bussiness) session.getAttribute("ll");
         System.out.println(bussiness.getId());
        return bussiness;
+    }
+    @ResponseBody
+    @RequestMapping("/xiaocha")
+    public BussinessDTO xiaoall(int yema,String role){
+        int ye =(yema-1)*3;
+
+        List<Bussiness> l=bussinessDao.findxiaobussiness(ye,role);
+        System.out.println(l);
+        int totcount = bussinessDao.findxiaocount(role);
+        int totpage= (totcount%3==0)?(totcount/3): (int) (Math.ceil(totcount/3));
+        BussinessDTO bussinessDTO = new BussinessDTO(l,totpage,yema,totcount);
+
+        return bussinessDTO;
+    }
+    @ResponseBody
+    @RequestMapping("/hj")
+    public ZhujieDTO fi(){
+        return zhujieDao.findZhujieDto(33);
+    }
+    @ResponseBody
+    @RequestMapping("/delall")
+    public String dd(int[] delid){
+        int a=0;
+        for (int i=0;i<delid.length;i++){
+             a=delid[i];
+             bussinessDao.del(a);
+        }
+        return "成功";
     }
 }

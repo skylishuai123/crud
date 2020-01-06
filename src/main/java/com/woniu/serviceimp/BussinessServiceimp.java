@@ -2,6 +2,7 @@ package com.woniu.serviceimp;
 
 import com.woniu.dao.BussinessDao;
 import com.woniu.entity.Bussiness;
+import com.woniu.entity.TotCount;
 import com.woniu.service.BussinessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -14,16 +15,19 @@ import java.util.List;
 public class BussinessServiceimp implements BussinessService {
     @Autowired
     private BussinessDao bussinessDao;
+
     @Cacheable("findcount")
     @Override
     public int findcount() {
         return bussinessDao.findcount();
     }
+
     @Cacheable("findbussiness")
     @Override
     public List<Bussiness> findbussiness(int ye) {
         return bussinessDao.findbussiness(ye);
     }
+
     @CacheEvict(value={"findcount","findbussiness"},allEntries=true)
     @Override
     public void del(int id) {
@@ -33,5 +37,21 @@ public class BussinessServiceimp implements BussinessService {
     @Override
     public Bussiness bb(int id) {
         return bussinessDao.bb(id);
+    }
+
+    @Override
+    @Cacheable("findtot")
+    public TotCount findtot() {
+        return bussinessDao.findtot();
+    }
+
+    @Override
+    public int findxiaocount(String role) {
+        return bussinessDao.findxiaocount(role);
+    }
+
+    @Override
+    public List<Bussiness> findxiaobussiness(int ye, String role) {
+        return bussinessDao.findxiaobussiness(ye,role);
     }
 }
