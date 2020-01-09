@@ -17,4 +17,5 @@ public class Koi {
     private Date birth;
     @DateTimeFormat(pattern = "yyyy-MM-hh" )
     private Date stop;
+    private String password;
 }

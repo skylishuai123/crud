@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/h")
 public class KoidController {
@@ -26,6 +28,18 @@ public class KoidController {
         String result="成功";
         koiService.adda(koi);
        result= (new ObjectMapper().writeValueAsString(result));
+        return result;
+    }
+    @RequestMapping("/dong")
+    @ResponseBody
+    public List<Koi> ff(){
+        return koiService.dd(new Koi(1,"ls",null,null,null));
+    }
+    @RequestMapping("/sao")
+    @ResponseBody
+    public String ffa(){
+        String result="成功";
+        koiService.gai(new Koi(1,"ls",null,null,"888"));
         return result;
     }
 }
